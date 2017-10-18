@@ -14,3 +14,11 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/threads/{thread}','ThreadsController@show');
+Route::get('/threads','ThreadsController@index');
+Route::get('/user/{user}','UserController@show');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
