@@ -18,9 +18,14 @@ class ThreadsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Channel $channel)
     {
-        $threads = Thread::latest()->paginate(15);
+        if($channel->exists){
+            $threads = $channel->threads()->latest()->paginate(15);
+        }else{
+            $threads = Thread::latest()->paginate(15);
+        }
+      
         return view('threads.index')->with(['threads'=>$threads]);
     }
 
@@ -43,6 +48,11 @@ class ThreadsController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validate($request,[
+            "title" => "required",
+            "body" => "required",
+            "channel_id" => "required|exists:channels,id"
+        ]);
         $thread =Thread::create([
             'title'=> request('title'),
             'body'=> request('body'),
