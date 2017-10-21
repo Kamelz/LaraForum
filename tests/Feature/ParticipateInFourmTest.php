@@ -11,9 +11,10 @@ class ParticipateInFourm extends TestCase
     use DatabaseMigrations;
     /** @test*/
     public function an_unauthinticated_user_may_not_participate_in_forum_threads(){
-        $this->expectException('Illuminate\Auth\AuthenticationException');
         
-        $this->post('threads/1/replies',[]);
+        $this->withExceptionHandling()
+            ->post('threads/et/1/replies',[])
+            ->assertRedirect('/login');
     } 
 
    /** @test*/

@@ -17,10 +17,10 @@ Route::get('/', function () {
 
 Route::get('/threads/create','ThreadsController@create');
 
-Route::get('/threads/{thread}','ThreadsController@show');
+Route::get('/threads/{channel}/{thread}','ThreadsController@show');
 Route::post('/threads','ThreadsController@store');
 
-Route::post('/threads/{thread}/replies','ReplyController@store')->name("add_reply_to_thread");
+Route::post('/threads/{channel}/{thread}/replies','ReplyController@store')->name("add_reply_to_thread");
 Route::get('/threads','ThreadsController@index')->name("threads");
 Route::get('/user/{user}','UserController@show');
 
