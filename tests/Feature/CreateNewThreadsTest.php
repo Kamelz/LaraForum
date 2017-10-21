@@ -12,9 +12,9 @@ class CreateNewThreadsTest extends TestCase
     /** @test */
     public function an_authenticated_user_can_create_new_fourm_threads(){
           
-          $this->be(factory('App\User')->create());
+          $this->SignIn();
           
-          $thread = factory('App\Thread')->make();
+          $thread = make('App\Thread');
 
           $this->post('threads',$thread->toArray());
           $this->get($thread->path())
@@ -29,11 +29,18 @@ class CreateNewThreadsTest extends TestCase
        
           $this->expectException('Illuminate\Auth\AuthenticationException');
         
-          $thread = factory('App\Thread')->make();
+          $thread = make('App\Thread');
 
           $this->post('threads',$thread->toArray());
      
-          
+    }
 
+    /** @test */
+    public function guest_cannot_see_create_threads(){
+       
+        $this->withExceptionHandling()
+            ->get("/threads/create")    
+            ->assertRedirect('/login');
+     
     }
 }

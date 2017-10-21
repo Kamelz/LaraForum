@@ -15,6 +15,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/threads/create','ThreadsController@create');
+
 Route::get('/threads/{thread}','ThreadsController@show');
 Route::post('/threads','ThreadsController@store');
 
