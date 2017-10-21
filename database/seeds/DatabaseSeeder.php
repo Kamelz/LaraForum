@@ -11,6 +11,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        $threads = factory('App\Thread',50)->create();
+        
+        $threads->each(function($thread){factory('App\Reply',20)->create(['thread_id'=> $thread->id]);});
+        
         // $this->call(UsersTableSeeder::class);
     }
 }

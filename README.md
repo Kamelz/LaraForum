@@ -9,6 +9,4 @@ Laravel forum project
 
 - `php artisan tinker`
 
-- `$threads = factory('App\Thread',50)->create();`
-
-- `$threads->each(function($thread){factory('App\Reply',20)->create(['thread_id'=> $thread->id]);});`
+- `php artisan db:seed`
