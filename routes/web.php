@@ -16,8 +16,10 @@ Route::get('/', function () {
 });
 
 Route::get('/threads/{thread}','ThreadsController@show');
-Route::get('/threads','ThreadsController@index');
+Route::post('/threads/{thread}/replies','ReplyController@store')->name("add_reply_to_thread");
+Route::get('/threads','ThreadsController@index')->name("threads");
 Route::get('/user/{user}','UserController@show');
+
 
 Auth::routes();
 
