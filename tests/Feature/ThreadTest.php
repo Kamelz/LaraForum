@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
@@ -45,10 +46,25 @@ class ThreadTest extends TestCase
                 ->assertSee($reply->body);
     }
         /** @test*/
+    public function a_user_can_filter_threads_by_username(){
+
+        $this->SignIn(create('App\User',['name'=>'kamel']));
+        $threadByKamel=create('App\Thread',['user_id'=>Auth::user()->id]);
+        $threadNotByKamel=create('App\Thread');
+
+        $this->get('threads?by=kamel')
+            ->assertSee($threadByKamel->title)
+            ->assertDontSee($threadNotByKamel->title);
+    }
+        /** @test*/
     public function a_user_can_filter_threads_according_to_a_channel(){
+
             $channel = create('App\Channel');
+            
             $threadInChannel = create('App\Thread',['channel_id'=>$channel->id]);
+            
             $threadNotInChannel = create('App\Thread');
+            
             $this->get('/threads/'.$channel->slug)
                 ->assertSee($threadInChannel->title)
                 ->assertDontSee($threadNotInChannel->title);
