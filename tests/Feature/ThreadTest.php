@@ -2,7 +2,9 @@
 
 namespace Tests\Feature;
 
+use App\Thread;
 use Tests\TestCase;
+use App\Filters\ThreadFilters;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -68,6 +70,25 @@ class ThreadTest extends TestCase
             $this->get('/threads/'.$channel->slug)
                 ->assertSee($threadInChannel->title)
                 ->assertDontSee($threadNotInChannel->title);
+    }
+        /** @test*/
+    public function a_user_can_filter_threads_according_to_its_popularity(){
+
+            // given we have 3 threads
+            // 1 with 2 replies , 3 replies and 0 replies
+
+            $twoRepliesThread = create('App\Thread');
+            create('App\Reply',['thread_id'=>$twoRepliesThread->id],2);
+
+            $threeRepliesThread = create('App\Thread');
+            create('App\Reply',['thread_id'=>$threeRepliesThread->id],3);
+            
+            $zeroRepliesThread = $this->thread;
+
+            // when I filter by popularity
+            $response = $this->getJson('threads?popular=1')->json();
+            // then they should be returned from most replies to least
+            $this->assertEquals([3,2,0],array_column($response,'replies_count'));
     }
 
 }

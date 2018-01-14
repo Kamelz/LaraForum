@@ -14,6 +14,11 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
+    <style>
+        body{padding-bottim:180px;}
+        .level{display:flex; align-items:center;}
+        .flex{flex:1;}
+    </style>
     <div id="app">
         <nav class="navbar navbar-default navbar-static-top">
             <div class="container">
@@ -56,6 +61,9 @@
                                 <ul class="dropdown-menu" role="menu">
                                     <li>
                                         <a href="{{ route('threads') }}">All Threads</a>  
+                                    </li>
+                                    <li>
+                                        <a href="/threads/?popular=1">Popular Threads</a>  
                                     </li>
                                     @if(Auth::check())                              
                                     <li>
