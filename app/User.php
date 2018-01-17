@@ -36,6 +36,12 @@ class User extends Authenticatable
 
         return $this->hasMany(Thread::class);
     }
+
+    public function favorites(){
+
+        return $this->hasMany('App\Favorite','user_id');
+    }
+
     public function threadsCount(){
 
     }

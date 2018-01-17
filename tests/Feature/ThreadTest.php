@@ -91,4 +91,20 @@ class ThreadTest extends TestCase
             $this->assertEquals([3,2,0],array_column($response,'replies_count'));
     }
 
+    /** @test*/
+    public function a_user_can_favorite_repiles(){
+
+        // given we have a threads
+        $favoritedReply = create('App\Reply',['thread_id'=>$this->thread->id]);
+
+        $user = create('App\User');
+        $this->SignIn($user);
+
+        $this->post('/favorite',['reply'=>$favoritedReply->id]);
+        // then the user can favorite the reply
+
+        $this->assertDatabaseHas('favorites',['user_id'=>$user->id,'reply_id'=>$favoritedReply->id]);
+        // the user id in favorite table must be the current authenticated user.
+
+    }
 }

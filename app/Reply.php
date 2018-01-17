@@ -11,4 +11,13 @@ class Reply extends Model
     public function owner(){
         return $this->belongsTo(User::class,'user_id');
     }
+
+    public function favorites(){
+        return $this->hasMany('App\Favorite','reply_id');
+    }
+
+    public function setAsFavorite($favorite)
+    {
+        $this->favorites()->create($favorite);
+    }
 }
