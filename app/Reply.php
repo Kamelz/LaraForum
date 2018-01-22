@@ -17,10 +17,14 @@ class Reply extends Model
     public function favorites(){
         return $this->morphMany(Favorite::class,'favorited');
     }
+    public function favorited(){
+        
+        return $this->favorites()->where(['user_id'=>auth()->id()])->exists();
+    }
 
     public function favorite()
     {
-            if(!Favorite::where(['user_id'=>auth()->id()] )->exists()){
+            if(! $this->favorites()->where(['user_id'=>auth()->id()])->exists()){
             $this->favorites()->create([
                 'user_id'=>auth()->id(),
             ]);
