@@ -84,7 +84,7 @@ class ThreadsController extends Controller
      */
     public function show($channelid,Thread $thread)
     {
-
+        // return $thread->replies;
         return view('threads.show')->with([
             'thread'=>$thread,
             'replies'=>$thread->replies()->paginate(5)

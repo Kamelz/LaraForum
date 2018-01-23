@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Thread extends Model
 {
+    protected $with = ['owner','channel'];
       /**
      * The "booting" method of the model.
      *
