@@ -1,7 +1,7 @@
 <div class="panel-heading">
     <div class ="level">
         <h5 class="flex">
-            <a href="/user/{{$reply->owner->id}}">
+            <a href="/profile/{{$reply->owner->name}}">
                 {{$reply->owner->name}}
             </a>
             said {{$reply->created_at->diffforHumans()}}

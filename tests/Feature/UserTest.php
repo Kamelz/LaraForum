@@ -15,7 +15,7 @@ class UserTest extends TestCase
         $user=create('App\User');
         $thread=create('App\Thread',['user_id'=>$user->id]);
 
-        $this->get('/user/'.$user->id)
+        $this->get('/user/'.$user->name)
             ->assertSee($thread->title);
 
     }
