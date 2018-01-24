@@ -16,9 +16,11 @@ Route::get('/', function () {
 });
 
 Route::get('/threads/create','ThreadsController@create')->name('create.thread');
-Route::get('/profile/{user}','ProfileController@show');
+Route::get('/profile/{user}','ProfileController@show')->name("profile");
 
 Route::get('/threads/{channel}/{thread}','ThreadsController@show');
+Route::delete('/threads/{channel}/{thread}','ThreadsController@destroy');
+
 Route::post('/threads','ThreadsController@store');
 
 Route::post('/threads/{channel}/{thread}/replies','ReplyController@store')->name("add_reply_to_thread");

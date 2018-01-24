@@ -7,8 +7,20 @@
                 <div class="panel panel-default">
                     
                     <div class="panel-heading">
+                        <div class="level">
+                            <span class="flex">
+                                
                         <a href="/profile/{{$thread->owner->name}}"> {{$thread->owner->name}} </a> Posted:
                         {{$thread->title}}
+                            </span>
+                            @can('update',$thread)
+                                <form action="{{$thread->path()}}" method="POST">
+                                    {{csrf_field()}}
+                                    {{method_field('DELETE')}}
+                                    <button class="btn btn-link" type="submit">Delete thread</button>
+                                </form>
+                            @endcan
+                        </div>
                     </div>
 
                     <div class="panel-body">

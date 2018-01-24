@@ -5,7 +5,7 @@ namespace Tests\Feature;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-
+use Auth;
 class CreateNewThreadsTest extends TestCase
 {   
     use DatabaseMigrations;
@@ -64,6 +64,35 @@ class CreateNewThreadsTest extends TestCase
         
         $this->post("/threads")    
         ->assertRedirect('/login');     
+    }
+
+        /** @test */
+    public function unauthorized_users_cannot_delete_threads(){
+            $this->withExceptionHandling();
+            
+            $thread = create('App\Thread');
+            
+            $this->delete($thread->path())->assertRedirect('/login');
+            $this->SignIn();
+            $this->delete($thread->path())->assertStatus(403);   
+    }
+        /** @test */
+
+    public function authorized_users_can_delete_a_thread(){
+            $this->withExceptionHandling();
+            
+            $this->SignIn();
+            $thread = create('App\Thread',['user_id' => auth()->id()]);
+
+            $reply = create('App\Reply',['thread_id'=>$thread->id]);    
+            
+            $response = $this->json('DELETE',$thread->path());
+
+            $response->assertStatus(204);
+            
+            $this->assertDatabaseMissing("threads",["id"=>$thread->id]);
+            $this->assertDatabaseMissing("replies",["id"=>$reply->id]);
+
     }
 
 }
