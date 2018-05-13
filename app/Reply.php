@@ -2,14 +2,16 @@
 
 namespace App;
 
-use App\Favorite;
 use App\Favoritable;
-use Illuminate\Support\Facades\Auth;
+use App\Favorite;
+use App\RecordsActivity;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Reply extends Model
 {
-    use Favoritable;
+	
+    use Favoritable,RecordsActivity;
     
     protected $guarded = [];
     protected $with = ['owner','favorites'];
